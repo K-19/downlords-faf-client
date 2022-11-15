@@ -201,7 +201,7 @@ public class LiveReplayService implements InitializingBean, DisposableBean {
   @Subscribe
   public void onDiscordGameJoinEvent(DiscordSpectateEvent discordSpectateEvent) {
     Integer replayId = discordSpectateEvent.getReplayId();
-    runLiveReplay(replayId);
+//    runLiveReplay(replayId);
   }
 
   @Override

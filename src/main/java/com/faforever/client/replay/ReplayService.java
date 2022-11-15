@@ -108,7 +108,7 @@ public class ReplayService {
   @VisibleForTesting
   static Integer parseSupComVersion(ReplayDataParser parser) {
     String[] versionParts = parser.getReplayPatchFieldId().split("\\.");
-    return Integer.parseInt(versionParts[versionParts.length - 1]);
+    return Integer.parseInt(versionParts[versionParts.length - 1].trim());
   }
 
   @VisibleForTesting

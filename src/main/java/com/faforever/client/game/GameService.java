@@ -202,7 +202,7 @@ public class GameService implements InitializingBean, DisposableBean {
   public void afterPropertiesSet() {
     currentGame.addListener((observable, oldValue, newValue) -> {
       if (newValue == null) {
-        discordRichPresenceService.clearGameInfo();
+//        discordRichPresenceService.clearGameInfo();
         return;
       }
 
@@ -240,9 +240,9 @@ public class GameService implements InitializingBean, DisposableBean {
       public void invalidated(Observable observable) {
         if (currentGame.get() == null || !Objects.equals(game, currentGame.get())) {
           observable.removeListener(this);
-          return;
+//          return;
         }
-        discordRichPresenceService.updatePlayedGameTo(currentGame.get());
+//        discordRichPresenceService.updatePlayedGameTo(currentGame.get());
       }
     };
   }
@@ -256,9 +256,9 @@ public class GameService implements InitializingBean, DisposableBean {
           return;
         }
 
-        if (Objects.equals(currentGame.get(), game)) {
-          discordRichPresenceService.updatePlayedGameTo(currentGame.get());
-        }
+//        if (Objects.equals(currentGame.get(), game)) {
+//          discordRichPresenceService.updatePlayedGameTo(currentGame.get());
+//        }
 
         if (newStatus == GameStatus.CLOSED) {
           if (oldStatus == GameStatus.PLAYING) {

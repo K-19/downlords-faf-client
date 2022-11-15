@@ -612,11 +612,11 @@ public class MainController implements Controller<Node>, InitializingBean {
   }
 
   public void onLinksAndHelp() {
-    LinksAndHelpController linksAndHelpController = uiService.loadFxml("theme/links_and_help.fxml");
-    Node root = linksAndHelpController.getRoot();
-    uiService.showInDialog(mainRoot, root, i18n.get("help.title"));
-
-    root.requestFocus();
+//    LinksAndHelpController linksAndHelpController = uiService.loadFxml("theme/links_and_help.fxml");
+//    Node root = linksAndHelpController.getRoot();
+//    uiService.showInDialog(mainRoot, root, i18n.get("help.title"));
+//
+//    root.requestFocus();
   }
 
   public void setFxStage(FxStage fxWindow) {

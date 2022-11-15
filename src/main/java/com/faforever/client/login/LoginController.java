@@ -15,6 +15,7 @@ import com.faforever.client.preferences.PreferencesService;
 import com.faforever.client.status.Message;
 import com.faforever.client.status.Service;
 import com.faforever.client.status.StatPingService;
+import com.faforever.client.teammatchmaking.TeamMatchmakingService;
 import com.faforever.client.theme.UiService;
 import com.faforever.client.update.ClientConfiguration.ServerEndpoints;
 import com.faforever.client.update.ClientUpdateService;
@@ -119,31 +120,31 @@ public class LoginController implements Controller<Pane> {
     // fallback values if configuration is not read from remote
     populateEndpointFields();
 
-    environmentComboBox.setConverter(new StringConverter<>() {
-      @Override
-      public String toString(ServerEndpoints serverEndpoints) {
-        return serverEndpoints == null ? null : serverEndpoints.getName();
-      }
-
-      @Override
-      public ServerEndpoints fromString(String string) {
-        throw new UnsupportedOperationException("Not supported");
-      }
-    });
-
-    ReadOnlyObjectProperty<ServerEndpoints> selectedEndpointProperty = environmentComboBox.getSelectionModel().selectedItemProperty();
-
-    selectedEndpointProperty.addListener(observable -> {
-      ServerEndpoints serverEndpoints = environmentComboBox.getSelectionModel().getSelectedItem();
-
-      if (serverEndpoints == null) {
-        return;
-      }
-
-      clientProperties.updateFromEndpoint(serverEndpoints);
-
-      populateEndpointFields();
-    });
+//    environmentComboBox.setConverter(new StringConverter<>() {
+//      @Override
+//      public String toString(ServerEndpoints serverEndpoints) {
+//        return serverEndpoints == null ? null : serverEndpoints.getName();
+//      }
+//
+//      @Override
+//      public ServerEndpoints fromString(String string) {
+//        throw new UnsupportedOperationException("Not supported");
+//      }
+//    });
+//
+//    ReadOnlyObjectProperty<ServerEndpoints> selectedEndpointProperty = environmentComboBox.getSelectionModel().selectedItemProperty();
+//
+//    selectedEndpointProperty.addListener(observable -> {
+//      ServerEndpoints serverEndpoints = environmentComboBox.getSelectionModel().getSelectedItem();
+//
+//      if (serverEndpoints == null) {
+//        return;
+//      }
+//
+//      clientProperties.updateFromEndpoint(serverEndpoints);
+//
+//      populateEndpointFields();
+//    });
 
     JavaFxUtil.addListener(
         oauthBaseUrlField.textProperty(),
@@ -153,6 +154,7 @@ public class LoginController implements Controller<Pane> {
         oauthRedirectUriField.textProperty(),
         observable -> clientProperties.getOauth().setRedirectUri(URI.create(oauthRedirectUriField.getText()))
     );
+
 
     if (clientProperties.isUseRemotePreferences()) {
       initializeFuture = preferencesService.getRemotePreferencesAsync()
@@ -171,10 +173,10 @@ public class LoginController implements Controller<Pane> {
               }
             }
 
-            JavaFxUtil.runLater(() -> {
-              environmentComboBox.getItems().addAll(clientConfiguration.getEndpoints());
-              environmentComboBox.getSelectionModel().select(defaultEndpoint);
-            });
+//            JavaFxUtil.runLater(() -> {
+//              environmentComboBox.getItems().addAll(clientConfiguration.getEndpoints());
+//              environmentComboBox.getSelectionModel().select(defaultEndpoint);
+//            });
             return shouldUpdate;
           }).exceptionally(throwable -> {
             log.error("Could not read remote preferences", throwable);
@@ -335,7 +337,8 @@ public class LoginController implements Controller<Pane> {
       redirectUriCandidates.add(URI.create(oauthRedirectUriField.getText()));
     }
 
-    ServerEndpoints endpoint = environmentComboBox.getValue();
+    ServerEndpoints endpoint = null;
+//    ServerEndpoints endpoint = environmentComboBox.getValue();
 
     if (endpoint != null) {
       redirectUriCandidates.addAll(endpoint.getOauth().getRedirectUris());

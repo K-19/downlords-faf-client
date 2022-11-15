@@ -28,8 +28,8 @@
                                   <MenuItem onAction="#onRevealModFolder" text="%menu.revealModFolder" />
                                   <MenuItem onAction="#onRevealReplayFolder" text="%menu.revealReplayFolder" />
                                   <MenuItem onAction="#onRevealGamePrefsFolder" text="%menu.revealGamePrefsFile"/>
-                                  <SeparatorMenuItem mnemonicParsing="false"/>
-                                  <MenuItem onAction="#onLinksAndHelp" text="%help.title"/>
+<!--                                  <SeparatorMenuItem mnemonicParsing="false"/>-->
+<!--                                  <MenuItem onAction="#onLinksAndHelp" text="%help.title"/>-->
                                   <SeparatorMenuItem mnemonicParsing="false"/>
                                   <MenuItem onAction="#onSettingsSelected" text="%menu.settings"/>
                                   <SeparatorMenuItem mnemonicParsing="false"/>

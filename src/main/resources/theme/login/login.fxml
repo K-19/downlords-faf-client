@@ -4,13 +4,14 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
+<?import javafx.scene.image.ImageView?>
 <VBox fx:id="loginRoot" alignment="CENTER" spacing="20.0" styleClass="login-root" xmlns="http://javafx.com/javafx/15"
       xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.faforever.client.login.LoginController">
     <children>
         <VBox fx:id="messagesContainer" alignment="CENTER" maxWidth="500.0" prefWidth="500.0" spacing="5.0"/>
         <Pane maxHeight="1.7976931348623157E308" minHeight="0.0" VBox.vgrow="ALWAYS"/>
         <StackPane>
-            <Region styleClass="login-logo"/>
+            <ImageView styleClass="login-logo"/>
         </StackPane>
         <Pane maxHeight="100.0" minHeight="0.0" prefHeight="100.0"/>
         <VBox fx:id="errorPane" alignment="CENTER" maxWidth="500.0" prefWidth="500.0">
@@ -49,13 +50,13 @@
             <children>
                 <HBox alignment="CENTER" maxWidth="1.7976931348623157E308" spacing="10.0" VBox.vgrow="NEVER">
                     <children>
-                        <Label maxHeight="1.7976931348623157E308" minWidth="-Infinity" onMouseClicked="#onMouseClicked"
-                               text="%login.environment">
-                            <HBox.margin>
-                                <Insets right="10.0"/>
-                            </HBox.margin>
-                        </Label>
-                        <ComboBox fx:id="environmentComboBox" maxWidth="1.7976931348623157E308"/>
+<!--                        <Label maxHeight="1.7976931348623157E308" minWidth="-Infinity" onMouseClicked="#onMouseClicked"-->
+<!--                               text="%login.environment">-->
+<!--                            <HBox.margin>-->
+<!--                                <Insets right="10.0"/>-->
+<!--                            </HBox.margin>-->
+<!--                        </Label>-->
+<!--                        <ComboBox fx:id="environmentComboBox" visible="false"/>-->
                         <Button fx:id="playOfflineButton" onAction="#onPlayOfflineButtonClicked"
                                 text="%login.playOffline"/>
                         <CheckBox fx:id="rememberMeCheckBox" text="%login.remember"/>
@@ -98,7 +99,7 @@
             </children>
         </VBox>
     </children>
-   <padding>
-      <Insets bottom="20.0" left="20.0" right="20.0" top="40.0" />
-   </padding>
+    <padding>
+        <Insets bottom="20.0" left="20.0" right="20.0" top="40.0"/>
+    </padding>
 </VBox>
