@@ -118,7 +118,6 @@ public class FafClientApplication extends Application {
         .apply();
 
     fxStage.getStage().setOnCloseRequest(this::closeMainWindow);
-
     showMainWindow(fxStage);
 
     // TODO publish event instead

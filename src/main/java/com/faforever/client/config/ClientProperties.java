@@ -137,6 +137,8 @@ public class ClientProperties {
     private String baseUrl;
     private String reportUrl;
     private String newsHubUrl;
+    private String tournamentsHubUrl;
+    private String topHubUrl;
   }
 
   @Data

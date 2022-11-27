@@ -36,37 +36,40 @@ public class CheckForUpdateTask extends CompletableTask<UpdateInfo> {
 
   @Override
   protected UpdateInfo call() throws Exception {
-    updateTitle(i18n.get("clientUpdateCheckTask.title"));
-    log.info("Checking for client update");
+    return null;
 
-    return preferencesService.getRemotePreferencesAsync().thenApply(clientConfiguration -> {
-      ReleaseInfo latestRelease = clientConfiguration.getLatestRelease();
-      String version = latestRelease.getVersion();
-
-      URL downloadUrl;
-      if (org.bridj.Platform.isWindows()) {
-        downloadUrl = latestRelease.getWindowsUrl();
-      } else if (org.bridj.Platform.isLinux()) {
-        downloadUrl = latestRelease.getLinuxUrl();
-      } else if (org.bridj.Platform.isMacOSX()) {
-        downloadUrl = latestRelease.getMacUrl();
-      } else {
-        return null;
-      }
-      if (downloadUrl == null) {
-        return null;
-      }
-
-      int fileSize = getFileSize(downloadUrl);
-
-      return new UpdateInfo(
-          version,
-          downloadUrl.getFile().substring(downloadUrl.getFile().lastIndexOf('/') + 1),
-          downloadUrl,
-          fileSize,
-          latestRelease.getReleaseNotesUrl(),
-          false
-      );
-    }).join();
+    //FIXME: Надо бы настроить свое хранилище версий клиента
+//    updateTitle(i18n.get("clientUpdateCheckTask.title"));
+//    log.info("Checking for client update");
+//
+//    return preferencesService.getRemotePreferencesAsync().thenApply(clientConfiguration -> {
+//      ReleaseInfo latestRelease = clientConfiguration.getLatestRelease();
+//      String version = latestRelease.getVersion();
+//
+//      URL downloadUrl;
+//      if (org.bridj.Platform.isWindows()) {
+//        downloadUrl = latestRelease.getWindowsUrl();
+//      } else if (org.bridj.Platform.isLinux()) {
+//        downloadUrl = latestRelease.getLinuxUrl();
+//      } else if (org.bridj.Platform.isMacOSX()) {
+//        downloadUrl = latestRelease.getMacUrl();
+//      } else {
+//        return null;
+//      }
+//      if (downloadUrl == null) {
+//        return null;
+//      }
+//
+//      int fileSize = getFileSize(downloadUrl);
+//
+//      return new UpdateInfo(
+//          version,
+//          downloadUrl.getFile().substring(downloadUrl.getFile().lastIndexOf('/') + 1),
+//          downloadUrl,
+//          fileSize,
+//          latestRelease.getReleaseNotesUrl(),
+//          false
+//      );
+//    }).join();
   }
 }

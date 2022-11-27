@@ -134,8 +134,10 @@ public class SimpleHttpFeaturedModUpdaterTask extends CompletableTask<PatchResul
   }
 
   private boolean fileAlreadyLoaded(FeaturedModFile featuredModFile, Path targetPath) throws IOException {
-    return Files.exists(targetPath)
-        && Objects.equals(featuredModFile.getMd5(), featuredModFileCacheService.readHashFromFile(targetPath));
+//    return Files.exists(targetPath)
+//        && Objects.equals(featuredModFile.getMd5(), featuredModFileCacheService.readHashFromFile(targetPath));
+
+    return Files.exists(targetPath);
   }
 
   private void downloadFeaturedModFile(FeaturedModFile featuredModFile, Path targetPath) throws IOException, NoSuchAlgorithmException, ChecksumMismatchException {

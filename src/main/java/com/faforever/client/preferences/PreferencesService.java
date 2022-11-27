@@ -307,14 +307,16 @@ public class PreferencesService implements InitializingBean {
       return clientConfiguration;
     }
 
-    URL url = new URL(clientProperties.getClientConfigUrl());
-    HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-    urlConnection.setConnectTimeout((int) clientProperties.getClientConfigConnectTimeout().toMillis());
-
-    try (Reader reader = new InputStreamReader(urlConnection.getInputStream(), StandardCharsets.UTF_8)) {
-      clientConfiguration = configurationReader.readValue(reader);
-      return clientConfiguration;
-    }
+    //TODO: Пока не обращаемся за новыми версиями клиента (пока нет своего хранилища)
+//    URL url = new URL(clientProperties.getClientConfigUrl());
+//    HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+//    urlConnection.setConnectTimeout((int) clientProperties.getClientConfigConnectTimeout().toMillis());
+//
+//    try (Reader reader = new InputStreamReader(urlConnection.getInputStream(), StandardCharsets.UTF_8)) {
+//      clientConfiguration = configurationReader.readValue(reader);
+//      return clientConfiguration;
+//    }
+    return null;
   }
 
 

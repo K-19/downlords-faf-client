@@ -27,6 +27,8 @@ faf-client:
   website:
     report-url: ${faf-client.website.base-url}/account/report
     news-hub-url: https://faforever-info.ru/novosti-tehnicheskaja-stranica/
+    tournaments-hub-url: http://faforever-info.ru/turniry-tehnicheskaja/
+    top-hub-url: http://faforever-info.ru/top-igroki-tehnicheskaja/
 
   imgur:
     upload:
