@@ -21,6 +21,8 @@ import org.jetbrains.annotations.Nullable;
 import java.nio.file.Path;
 import java.time.Duration;
 import java.time.OffsetDateTime;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -53,7 +55,20 @@ public class ReplayBean {
   ObjectProperty<ReplayReviewsSummaryBean> gameReviewsSummary = new SimpleObjectProperty<>();
 
   public static String getReplayUrl(int replayId, String baseUrlFormat) {
-    return String.format(baseUrlFormat, replayId);
+    String[] files = new String[]{"0", "0", "0", "0"};
+    for (int i = 1; i <= 5; i++) {
+      int temp = (int) (replayId % Math.pow(10, 2 + 2 * i));
+      temp = (int) (temp / Math.pow(10, 2 * i));
+      try {
+        files[i - 1] = Long.toString(temp);
+      } catch (IndexOutOfBoundsException e) {
+        break;
+      }
+    }
+    List<String> list = Arrays.asList(files);
+    Collections.reverse(list);
+    files = list.toArray(new String[0]);
+    return String.format(baseUrlFormat, String.join("/", files) + "/" + replayId);
   }
 
   public boolean getReplayAvailable() {

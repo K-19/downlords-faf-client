@@ -20,10 +20,11 @@ public class SimpleHttpFeaturedModUpdater implements FeaturedModUpdater {
   private final ApplicationContext applicationContext;
 
   @Override
-  public CompletableFuture<PatchResult> updateMod(FeaturedModBean featuredMod, @Nullable Integer version) {
+  public CompletableFuture<PatchResult> updateMod(FeaturedModBean featuredMod, @Nullable Integer version, boolean useKyros) {
     SimpleHttpFeaturedModUpdaterTask task = applicationContext.getBean(SimpleHttpFeaturedModUpdaterTask.class);
     task.setVersion(version);
     task.setFeaturedMod(featuredMod);
+    task.setUseKyros(useKyros);
 
     return taskService.submitTask(task).getFuture();
   }

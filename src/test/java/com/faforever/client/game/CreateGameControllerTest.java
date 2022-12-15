@@ -301,7 +301,7 @@ public class CreateGameControllerTest extends UITest {
 
     MapBean map = MapBeanBuilder.create().defaultValues().get();
     when(mapService.updateLatestVersionIfNecessary(map.getLatestVersion())).thenReturn(completedFuture(map.getLatestVersion()));
-    when(gameService.hostGame(any())).thenReturn(completedFuture(null));
+    when(gameService.hostGame(any(), false)).thenReturn(completedFuture(null));
 
     mapList.add(map.getLatestVersion());
     instance.mapListView.getSelectionModel().select(0);
@@ -319,7 +319,7 @@ public class CreateGameControllerTest extends UITest {
 
     MapVersionBean map = MapVersionBeanBuilder.create().defaultValues().map(MapBeanBuilder.create().defaultValues().get()).get();
     when(mapService.updateLatestVersionIfNecessary(map)).thenReturn(completedFuture(map));
-    when(gameService.hostGame(newGameInfoArgumentCaptor.capture())).thenReturn(completedFuture(null));
+    when(gameService.hostGame(newGameInfoArgumentCaptor.capture(), false)).thenReturn(completedFuture(null));
 
     mapList.add(map);
     runOnFxThreadAndWait(() -> {
@@ -353,7 +353,7 @@ public class CreateGameControllerTest extends UITest {
     when(modService.updateAndActivateModVersions(eq(selectedMods)))
         .thenAnswer(invocation -> completedFuture(List.of(newModVersion)));
 
-    when(gameService.hostGame(any())).thenReturn(completedFuture(null));
+    when(gameService.hostGame(any(), use)).thenReturn(completedFuture(null));
 
     runOnFxThreadAndWait(() -> {
       mapList.add(map);

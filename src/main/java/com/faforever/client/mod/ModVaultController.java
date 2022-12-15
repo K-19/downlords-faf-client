@@ -1,5 +1,6 @@
 package com.faforever.client.mod;
 
+import com.faforever.client.config.ClientProperties;
 import com.faforever.client.domain.ModVersionBean;
 import com.faforever.client.domain.ModVersionBean.ModType;
 import com.faforever.client.fx.JavaFxUtil;
@@ -19,6 +20,9 @@ import com.faforever.client.vault.search.SearchController.SearchConfig;
 import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
 import javafx.scene.Node;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
@@ -37,17 +41,19 @@ public class ModVaultController extends VaultEntityController<ModVersionBean> {
   private final ModService modService;
   private final EventBus eventBus;
   private final PlatformService platformService;
+  private final ClientProperties clientProperties;
 
   private ModDetailController modDetailController;
   private Integer recommendedShowRoomPageCount;
 
   public ModVaultController(ModService modService, I18n i18n, EventBus eventBus, PreferencesService preferencesService,
                                UiService uiService, NotificationService notificationService, ReportingService reportingService,
-                            PlatformService platformService) {
+                            PlatformService platformService, ClientProperties properties) {
     super(uiService, notificationService, i18n, preferencesService, reportingService);
     this.eventBus = eventBus;
     this.modService = modService;
     this.platformService = platformService;
+    this.clientProperties = properties;
   }
 
   @Override
@@ -59,6 +65,14 @@ public class ModVaultController extends VaultEntityController<ModVersionBean> {
 
     manageVaultButton.setVisible(true);
     manageVaultButton.setText(i18n.get("modVault.manageMods"));
+    staticMessage1.setText(clientProperties.getVault().getStaticMessageFirst());
+    staticMessage1.setFill(Color.WHITE);
+    staticMessage1.setFont(Font.font(16));
+//    staticMessage1.setStyle("-fx-text-inner-color: white; -fx-font-size: 16");
+    staticMessage2.setText(clientProperties.getVault().getStaticMessageSecond());
+    staticMessage2.setFill(Color.WHITE);
+    staticMessage2.setFont(Font.font(16));
+//    staticMessage2.setStyle("-fx-text-inner-color: white; -fx-font-size: 16");
     modService.getRecommendedModPageCount(TOP_ELEMENT_COUNT).thenAccept(pageCount -> recommendedShowRoomPageCount = pageCount);
   }
 

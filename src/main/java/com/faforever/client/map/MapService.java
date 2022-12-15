@@ -232,7 +232,7 @@ public class MapService implements InitializingBean, DisposableBean {
 
       protected Void call() {
         updateTitle(i18n.get("mapVault.loadingMaps"));
-        Path officialMapsPath = preferencesService.getPreferences().getForgedAlliance().getInstallationPath().resolve("maps");
+        Path officialMapsPath = preferencesService.getPreferences().getForgedAlliance().getVaultBaseDirectory().resolve("maps");
         try (Stream<Path> customMapsDirectoryStream = list(preferencesService.getPreferences().getForgedAlliance().getMapsDirectory())) {
           List<Path> mapPaths = new ArrayList<>();
           customMapsDirectoryStream.collect(toCollection(() -> mapPaths));
@@ -438,7 +438,7 @@ public class MapService implements InitializingBean, DisposableBean {
 
   private Path getMapsDirectory(String technicalName) {
     if (isOfficialMap(technicalName)) {
-      return preferencesService.getPreferences().getForgedAlliance().getInstallationPath().resolve("maps");
+      return preferencesService.getPreferences().getForgedAlliance().getVaultBaseDirectory().resolve("maps");
     }
     return preferencesService.getPreferences().getForgedAlliance().getMapsDirectory();
   }

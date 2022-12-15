@@ -17,7 +17,8 @@ public enum NavigationItem {
   LEADERBOARD("theme/leaderboard/leaderboards.fxml", "main.leaderboards"),
   UNITS("theme/units.fxml", "main.units"),
   TUTORIALS("theme/tutorial.fxml", "main.tutorials"),
-  TOURNAMENTS("theme/tournaments/tournaments.fxml", "main.tournaments");
+  TOURNAMENTS("theme/tournaments/tournaments.fxml", "main.tournaments"),
+  TOP_MONTH("theme/topMonth.fxml", "main.topMonth");
 
   private final String fxmlFile;
   private final String i18nKey;

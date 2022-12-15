@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <install4j version="10.0.3" transformSequenceNumber="10">
   <directoryPresets config="./build/resources/steam_appid.txt" />
-  <application name="RU FAF Client" applicationId="2848-7798-9769-5013" mediaDir="./build/install4j" lzmaCompression="true" pack200Compression="true" shortName="ru-faf" publisher="FAForever" publisherWeb="https://github.com/K-19/downlords-faf-client" version="1.0.3.1" allPathsRelative="true" autoSave="true" macVolumeId="e230e730a6fc064c" javaMinVersion="17" allowBetaVM="true">
+  <application name="RU FAF Client" applicationId="2848-7798-9769-5013" mediaDir="./build/install4j" lzmaCompression="true" pack200Compression="true" shortName="ru-faf" publisher="RuFAForever" publisherWeb="https://github.com/K-19/downlords-faf-client" version="1.0.9" allPathsRelative="true" autoSave="true" macVolumeId="e230e730a6fc064c" javaMinVersion="17" allowBetaVM="true">
     <languages>
       <additionalLanguages>
         <language id="zh_CN" />
@@ -41,7 +41,7 @@
     </entries>
   </files>
   <launchers>
-    <launcher name="FAF Client" id="25">
+    <launcher name="RU FAF Client" id="25">
       <executable name="faf-client" iconSet="true" executableMode="gui" changeWorkingDirectory="false" workingDirectory="bin" singleInstance="true" checkConsoleParameter="true" dpiAware="true" />
       <splashScreen show="true" width="640" height="400" bitmapFile="./src/media/splash/splash.png" textOverlay="true">
         <text>
@@ -82,7 +82,7 @@
       </iconImageFiles>
     </launcher>
   </launchers>
-  <installerGui>
+  <installerGui suggestPreviousLocations="false">
     <applications>
       <application id="installer" beanClass="com.install4j.runtime.beans.applications.InstallerApplication" actionElevationType="elevated" launchInNewProcess="false">
         <startup>

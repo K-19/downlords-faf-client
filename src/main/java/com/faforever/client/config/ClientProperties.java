@@ -18,7 +18,7 @@ import java.util.Map;
 @ConfigurationProperties(prefix = "faf-client", ignoreUnknownFields = false)
 public class ClientProperties {
 
-  private String mainWindowTitle = "FAF Client";
+  private String mainWindowTitle = "RU FAF Client";
   private News news = new News();
   private ForgedAlliance forgedAlliance = new ForgedAlliance();
   private Irc irc = new Irc();
@@ -95,6 +95,8 @@ public class ClientProperties {
     private String mapDownloadUrlFormat;
     private String mapPreviewUrlFormat;
     private String replayDownloadUrlFormat;
+    private String staticMessageFirst;
+    private String staticMessageSecond;
   }
 
   @Data
@@ -139,6 +141,7 @@ public class ClientProperties {
     private String newsHubUrl;
     private String tournamentsHubUrl;
     private String topHubUrl;
+    private String topMonthHubUrl;
   }
 
   @Data

@@ -11,7 +11,7 @@ public interface FeaturedModUpdater {
    * Updates the specified featured mod to the specified version. If {@code version} is null, it will update to the
    * latest version
    */
-  CompletableFuture<PatchResult> updateMod(FeaturedModBean featuredMod, @Nullable Integer version);
+  CompletableFuture<PatchResult> updateMod(FeaturedModBean featuredMod, @Nullable Integer version, boolean useKyros);
 
   /**
    * Returns {@code true} if this updater is able to update the specified featured mod.

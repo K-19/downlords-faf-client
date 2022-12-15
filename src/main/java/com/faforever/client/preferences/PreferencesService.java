@@ -73,8 +73,8 @@ public class PreferencesService implements InitializingBean {
 
   public static final String SUPREME_COMMANDER_EXE = "SupremeCommander.exe";
   public static final String FORGED_ALLIANCE_EXE = "ForgedAlliance.exe";
-  public static final String APP_DATA_SUB_FOLDER = "Forged Alliance Forever";
-  public static final String USER_HOME_SUB_FOLDER = ".faforever";
+  public static final String APP_DATA_SUB_FOLDER = "Ru Forged Alliance Forever";
+  public static final String USER_HOME_SUB_FOLDER = ".rufaforever";
 
   private static final long STORE_DELAY = 1000;
   private static final Charset CHARSET = StandardCharsets.UTF_8;

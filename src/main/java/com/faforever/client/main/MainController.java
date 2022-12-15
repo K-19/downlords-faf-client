@@ -33,6 +33,8 @@ import com.faforever.client.preferences.PreferencesService;
 import com.faforever.client.preferences.WindowPrefs;
 import com.faforever.client.preferences.ui.SettingsController;
 import com.faforever.client.theme.UiService;
+import com.faforever.client.tournament.UnreadTournamentsEvent;
+import com.faforever.client.tutorial.UnreadTutorialEvent;
 import com.faforever.client.ui.StageHolder;
 import com.faforever.client.ui.alert.Alert;
 import com.faforever.client.ui.alert.animation.AlertAnimation;
@@ -129,6 +131,7 @@ public class MainController implements Controller<Node>, InitializingBean {
   public ToggleButton playButton;
   public ToggleButton replayButton;
   public ToggleButton tutorialsButton;
+  public ToggleButton topMonthButton;
   public ToggleButton mapButton;
   public ToggleButton modButton;
   public ToggleButton leaderboardsButton;
@@ -185,6 +188,7 @@ public class MainController implements Controller<Node>, InitializingBean {
     tournamentsButton.setUserData(NavigationItem.TOURNAMENTS);
     unitsButton.setUserData(NavigationItem.UNITS);
     tutorialsButton.setUserData(NavigationItem.TUTORIALS);
+    topMonthButton.setUserData(NavigationItem.TOP_MONTH);
     eventBus.register(this);
 
     PersistentNotificationsController persistentNotificationsController = uiService.loadFxml("theme/persistent_notifications.fxml");
@@ -254,6 +258,16 @@ public class MainController implements Controller<Node>, InitializingBean {
   @Subscribe
   public void onUnreadNews(UnreadNewsEvent event) {
     JavaFxUtil.runLater(() -> newsButton.pseudoClassStateChanged(HIGHLIGHTED, event.hasUnreadNews()));
+  }
+
+  @Subscribe
+  public void onUnreadTournaments(UnreadTournamentsEvent event) {
+    JavaFxUtil.runLater(() -> tournamentsButton.pseudoClassStateChanged(HIGHLIGHTED, event.hasUnreadTournaments()));
+  }
+
+  @Subscribe
+  public void onUnreadTutorials(UnreadTutorialEvent event) {
+    JavaFxUtil.runLater(() -> tutorialsButton.pseudoClassStateChanged(HIGHLIGHTED, event.hasUnreadTutorial()));
   }
 
   @Subscribe

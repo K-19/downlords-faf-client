@@ -66,14 +66,17 @@
 
                       <ToggleButton fx:id="tournamentsButton" minWidth="-Infinity" mnemonicParsing="false"
                                     onAction="#onNavigateButtonClicked" styleClass="main-navigation-button"
-                                    text="%main.tournaments"/>
+                                    text="%main.tournaments" toggleGroup="$mainNavigation"/>
 
                       <ToggleButton fx:id="unitsButton" minWidth="-Infinity" mnemonicParsing="false"
                                     onAction="#onNavigateButtonClicked" styleClass="main-navigation-button"
                                     text="%main.units" toggleGroup="$mainNavigation"/>
                       <ToggleButton fx:id="tutorialsButton" minWidth="-Infinity" mnemonicParsing="false"
                                     onAction="#onNavigateButtonClicked" styleClass="main-navigation-button"
-                                    text="%main.tutorials"/>
+                                    text="%main.tutorials" toggleGroup="$mainNavigation"/>
+                      <ToggleButton fx:id="topMonthButton" minWidth="-Infinity" mnemonicParsing="false"
+                                    onAction="#onNavigateButtonClicked" styleClass="main-navigation-top-button"
+                                    text="%main.topMonth" toggleGroup="$mainNavigation"/>
                   </children>
                </HBox>
                <MenuButton fx:id="navigationDropdown" minHeight="-Infinity" minWidth="-Infinity" />

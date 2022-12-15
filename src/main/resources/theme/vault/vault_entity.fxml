@@ -14,6 +14,8 @@
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.control.TextField?>
 <BorderPane fx:id="root" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
     <center>
         <StackPane fx:id="vaultRoot">
@@ -46,6 +48,8 @@
                         </Button>
                         <Button fx:id="manageVaultButton" mnemonicParsing="false" visible="false"/>
                     </HBox>
+                    <Text fx:id="staticMessage1"/>
+                    <Text fx:id="staticMessage2"/>
                     <VBox fx:id="searchResultGroup" spacing="10.0">
                         <Label styleClass="h2" text="%searchResult"/>
                         <FlowPane fx:id="searchResultPane" hgap="10.0" vgap="10.0"/>

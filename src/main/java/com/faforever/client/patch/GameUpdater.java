@@ -25,5 +25,5 @@ public interface GameUpdater {
    * @param featuredModFileVersions a map of the featuredModFileIds to the version of the file
    * @return a completion stage that completes when the mod is fully updated
    */
-  CompletableFuture<Void> update(FeaturedModBean featuredMod, Set<String> simModUIDs, @Nullable Map<String, Integer> featuredModFileVersions, @Nullable Integer baseVersion);
+  CompletableFuture<Void> update(FeaturedModBean featuredMod, Set<String> simModUIDs, @Nullable Map<String, Integer> featuredModFileVersions, @Nullable Integer baseVersion, boolean useKyros);
 }

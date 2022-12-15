@@ -425,26 +425,34 @@
   -fx-background: -fx-control-inner-background;
 }
 
-.main-navigation-button {
+.main-navigation-button, .main-navigation-top-button {
   -fx-background: transparent;
   -fx-background-color: -fx-background;
   -fx-font-size: 1.2em;
   -fx-padding: 0.5em 1.5em;
-  -fx-border-width: 0 0 4 0;
-  -fx-border-color: transparent;
   -fx-border-radius: 0;
 }
 
-.main-navigation-button:highlighted {
+.main-navigation-top-button {
+  -fx-border-width: 0 4 4 4;
+  -fx-border-color: -fx-accent;
+}
+
+.main-navigation-button {
+  -fx-border-width: 0 0 4 0;
+  -fx-border-color: transparent;
+}
+
+.main-navigation-button:highlighted, .main-navigation-top-button:highlighted {
   -fx-background-color: -fx-accent;
 }
 
-.main-navigation-button:hover {
+.main-navigation-button:hover, .main-navigation-top-button:hover {
   -fx-border-color: -fx-selection-bar-non-focused;
   -fx-background: #FFFFFF12;
 }
 
-.main-navigation-button:armed, .main-navigation-button:selected, .main-navigation-button:focused:selected {
+.main-navigation-button:armed, .main-navigation-top-button:armed, .main-navigation-button:selected, .main-navigation-top-button:selected, .main-navigation-button:focused:selected, .main-navigation-top-button:focused:selected {
   -fx-background-color: #FFFFFF33;
   -fx-border-color: -fx-accent;
 }

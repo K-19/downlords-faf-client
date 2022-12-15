@@ -186,7 +186,7 @@ bootRun {
 jar {
   manifest {
     attributes "Main-Class": "com.faforever.client.Main",
-        "Implementation-Title": "FAF Client",
+        "Implementation-Title": "RU FAF Client",
         "Implementation-Version": archiveVersion,
         "Implementation-Vendor": "Forged Alliance Forever"
   }

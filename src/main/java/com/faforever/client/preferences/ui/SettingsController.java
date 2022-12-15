@@ -265,6 +265,7 @@ public class SettingsController implements Controller<Node> {
     bindNotificationPreferences();
     bindGamePreferences();
     bindGeneralPreferences();
+    gameDataCacheCheckBox.setSelected(true);
   }
 
   /**

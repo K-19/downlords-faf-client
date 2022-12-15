@@ -7,7 +7,7 @@ faf-client:
     draw-probability: 0.1
 
   links:
-    linksTecHelpForum: https://forum.faforever.com/category/4/i-need-help
+    linksTecHelpForum: https://forum.faforever.ru/category/4/i-need-help
     linksRules: ${faf-client.website.base-url}/rules
     linksModerationReport: ${faf-client.website.base-url}/account/report
     linksFacebook: https://www.facebook.com/ForgedAllianceForever/
@@ -15,11 +15,11 @@ faf-client:
     twitch: https://twitch.tv/faflive
     patreon: https://www.patreon.com/faf
     twitter: https://twitter.com/FAFOfficial_
-    wiki: https://wikijs.faforever.com/
+    wiki: https://wikijs.faforever.ru/
 
   vault:
-    map_rules_url: https://wiki.faforever.com/en/Vault-Rules
-    mod_rules_url: https://wiki.faforever.com/en/Vault-Rules
+    map_rules_url: https://wiki.faforever.ru/en/Vault-Rules
+    mod_rules_url: https://wiki.faforever.ru/en/Vault-Rules
     map_validation_url: ${faf-client.api.base-url}/maps/validate
     mapDownloadUrlFormat: ${faf-client.vault.base-url}/maps/%s.zip
     mapPreviewUrlFormat: ${faf-client.vault.base-url}/maps/previews/%s/%s.png
@@ -29,6 +29,7 @@ faf-client:
     news-hub-url: https://faforever-info.ru/novosti-tehnicheskaja-stranica/
     tournaments-hub-url: http://faforever-info.ru/turniry-tehnicheskaja/
     top-hub-url: http://faforever-info.ru/top-igroki-tehnicheskaja/
+    top-month-hub-url: https://faforever-info.ru/top-igroki-mesjaca-tehnicheskaja/
 
   imgur:
     upload:
@@ -36,7 +37,7 @@ faf-client:
 
   unit-database:
     spookiesUrl: https://faforever.github.io/spooky-db/#/
-    rackOversUrl: https://unitdb.faforever.com?settings64=eyJwcmV2aWV3Q29ybmVyIjoiTm9uZSJ9
+    rackOversUrl: https://unitdb.faforever.ru?settings64=eyJwcmV2aWV3Q29ybmVyIjoiTm9uZSJ9
 
   vanillaGameHashes:
     - 1AFBCD0CA85546470660FA8AC09B230E870EC65C8D1B33FEB6731BB5D4C366C5
@@ -55,18 +56,18 @@ faf-client:
     downloadUrlFormat: https://github.com/${faf-client.faf-debugger.repoAndOwnerName}/releases/download/%1$s/FADeepProbe.exe
 
   translation-project-url: https://poeditor.com/join/project/2oWfdaZQZj
-  client-config-url: https://content.faforever.com/dfc-config.json
+  client-config-url: https://content.faforever.ru/dfc-config.json
   client-config-connect-timeout: 10s
   user-agent: downlords-faf-client
 
   statping:
-    api-root: https://status.faforever.com/api
+    api-root: https://status.faforever.ru/api
 
 spring:
   profiles:
     active: ${CLIENT_PROFILE:prod}
   application:
-    name: FAF Client
+    name: RU FAF Client
   main:
     web-application-type: none
     allow-circular-references: true

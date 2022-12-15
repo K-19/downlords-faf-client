@@ -242,7 +242,7 @@ public class TeamMatchmakingService implements InitializingBean {
 
     return mapService.downloadAllMatchmakerMaps(queue)
         .thenCompose(aVoid -> modService.getFeaturedMod(FAF.getTechnicalName()))
-        .thenCompose(featuredModBean -> gameService.updateGameIfNecessary(featuredModBean, Set.of()))
+        .thenCompose(featuredModBean -> gameService.updateGameIfNecessary(featuredModBean, Set.of(), false))
         .thenRun(() -> fafServerAccessor.gameMatchmaking(queue, MatchmakerState.START))
         .thenApply(aVoid -> true)
         .exceptionally(throwable -> {

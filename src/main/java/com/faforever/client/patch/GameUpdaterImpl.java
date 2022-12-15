@@ -60,7 +60,7 @@ public class GameUpdaterImpl implements GameUpdater {
   }
 
   @Override
-  public CompletableFuture<Void> update(FeaturedModBean featuredMod, Set<String> simModUIDs, @Nullable Map<String, Integer> featuredModFileVersions, @Nullable Integer baseVersion) {
+  public CompletableFuture<Void> update(FeaturedModBean featuredMod, Set<String> simModUIDs, @Nullable Map<String, Integer> featuredModFileVersions, @Nullable Integer baseVersion, boolean useKyros) {
     gameType = featuredMod.getTechnicalName();
 
     // The following ugly code is sponsored by the featured-mod-mess. FAF and Coop are both featured mods - but others,
@@ -75,11 +75,11 @@ public class GameUpdaterImpl implements GameUpdater {
       Integer featuredModVersion = Optional.ofNullable(featuredModFileVersions).map(Map::values).stream().flatMap(Collection::stream).max(Comparator.nullsLast(Comparator.naturalOrder())).orElse(null);
 
       featuredModUpdateFuture = simModsUpdateFuture.thenCompose(aVoid -> modService.getFeaturedMod(FAF.getTechnicalName()))
-          .thenCompose(baseMod -> updateFeaturedMod(baseMod, baseVersion))
+          .thenCompose(baseMod -> updateFeaturedMod(baseMod, baseVersion, useKyros))
           .thenCompose(patchResult -> updateGameBinaries(patchResult.getVersion()))
-          .thenCompose(aVoid -> updateFeaturedMod(featuredMod, featuredModVersion));
+          .thenCompose(aVoid -> updateFeaturedMod(featuredMod, featuredModVersion, useKyros));
     } else {
-      featuredModUpdateFuture = simModsUpdateFuture.thenCompose(aVoid -> updateFeaturedMod(featuredMod, baseVersion))
+      featuredModUpdateFuture = simModsUpdateFuture.thenCompose(aVoid -> updateFeaturedMod(featuredMod, baseVersion, useKyros))
           .thenCompose(patchResult -> updateGameBinaries(patchResult.getVersion()).thenApply(aVoid -> patchResult));
     }
 
@@ -142,10 +142,10 @@ public class GameUpdaterImpl implements GameUpdater {
         .map(modService::downloadAndInstallMod).toArray(CompletableFuture[]::new));
   }
 
-  private CompletableFuture<PatchResult> updateFeaturedMod(FeaturedModBean featuredMod, Integer version) {
+  private CompletableFuture<PatchResult> updateFeaturedMod(FeaturedModBean featuredMod, Integer version, boolean useKyros) {
     for (FeaturedModUpdater featuredModUpdater : featuredModUpdaters) {
       if (featuredModUpdater.canUpdate(featuredMod)) {
-        return featuredModUpdater.updateMod(featuredMod, version);
+        return featuredModUpdater.updateMod(featuredMod, version, useKyros);
       }
     }
     throw new UnsupportedOperationException("No updater available for featured mod: " + featuredMod

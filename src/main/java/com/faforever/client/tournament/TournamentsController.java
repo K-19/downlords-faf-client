@@ -7,7 +7,6 @@ import com.faforever.client.fx.AbstractViewController;
 import com.faforever.client.fx.JavaFxUtil;
 import com.faforever.client.fx.WebViewConfigurer;
 import com.faforever.client.main.event.NavigateEvent;
-import com.faforever.client.news.UnreadNewsEvent;
 import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
 import javafx.beans.value.ChangeListener;
@@ -16,7 +15,6 @@ import javafx.scene.Node;
 import javafx.scene.control.Control;
 import javafx.scene.layout.Pane;
 import javafx.scene.web.WebView;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
@@ -173,14 +171,14 @@ public class TournamentsController extends AbstractViewController<Node> {
 
   @Override
   protected void onDisplay(NavigateEvent navigateEvent) {
-    eventBus.post(new UnreadNewsEvent(false));
+    eventBus.post(new UnreadTournamentsEvent(false));
     onLoadingStart();
     loadTournaments();
   }
 
   @Subscribe
-  public void onUnreadNewsEvent(UnreadNewsEvent unreadNewsEvent) {
-    if (unreadNewsEvent.hasUnreadNews()) {
+  public void onUnreadTournamentsEvent(UnreadTournamentsEvent unreadTournamentsEvent) {
+    if (unreadTournamentsEvent.hasUnreadTournaments()) {
       onLoadingStart();
       loadTournaments();
     }

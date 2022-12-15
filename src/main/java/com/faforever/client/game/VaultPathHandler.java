@@ -68,27 +68,27 @@ public class VaultPathHandler implements InitializingBean {
 
   public void onVaultPathUpdated(Path newPath) {
     log.info("User changed vault directory to: `{}`", newPath);
-
     ForgedAlliancePrefs forgedAlliancePrefs = preferencesService.getPreferences().getForgedAlliance();
+    forgedAlliancePrefs.setVaultBaseDirectory(newPath);
 
-    MoveDirectoryTask moveDirectoryTask = applicationContext.getBean(MoveDirectoryTask.class);
-    moveDirectoryTask.setOldDirectory(forgedAlliancePrefs.getVaultBaseDirectory());
-    moveDirectoryTask.setNewDirectory(newPath);
-    moveDirectoryTask.setAfterCopyAction(() -> {
-      forgedAlliancePrefs.setVaultBaseDirectory(newPath);
-      preferencesService.storeInBackground();
-    });
-    notificationService.addNotification(new ImmediateNotification(i18n.get("settings.vault.change"), i18n.get("settings.vault.change.message"), Severity.INFO,
-        List.of(
-            new Action(i18n.get("no"), event -> {
-              moveDirectoryTask.setPreserveOldDirectory(false);
-              taskService.submitTask(moveDirectoryTask);
-            }),
-            new Action(i18n.get("yes"), event -> {
-              moveDirectoryTask.setPreserveOldDirectory(true);
-              taskService.submitTask(moveDirectoryTask);
-            }),
-            new CancelAction(i18n)
-        )));
+//    MoveDirectoryTask moveDirectoryTask = applicationContext.getBean(MoveDirectoryTask.class);
+//    moveDirectoryTask.setOldDirectory(forgedAlliancePrefs.getVaultBaseDirectory());
+//    moveDirectoryTask.setNewDirectory(newPath);
+//    moveDirectoryTask.setAfterCopyAction(() -> {
+//      forgedAlliancePrefs.setVaultBaseDirectory(newPath);
+//      preferencesService.storeInBackground();
+//    });
+//    notificationService.addNotification(new ImmediateNotification(i18n.get("settings.vault.change"), i18n.get("settings.vault.change.message"), Severity.INFO,
+//        List.of(
+//            new Action(i18n.get("no"), event -> {
+//              moveDirectoryTask.setPreserveOldDirectory(false);
+//              taskService.submitTask(moveDirectoryTask);
+//            }),
+//            new Action(i18n.get("yes"), event -> {
+//              moveDirectoryTask.setPreserveOldDirectory(true);
+//              taskService.submitTask(moveDirectoryTask);
+//            }),
+//            new CancelAction(i18n)
+//        )));
   }
 }

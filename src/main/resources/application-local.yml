@@ -8,7 +8,7 @@ faf-client:
     port: 6697
 
   vault:
-    base-url: https://content.faforever.com
+    base-url: http://31.135.14.173:81
     replay-download-url-format: https://replay.faforever.com/%s
 
   news:

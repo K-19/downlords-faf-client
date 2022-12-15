@@ -274,7 +274,7 @@ public class GameService implements InitializingBean, DisposableBean {
     return gameRunning;
   }
 
-  public CompletableFuture<Void> hostGame(NewGameInfo newGameInfo) {
+  public CompletableFuture<Void> hostGame(NewGameInfo newGameInfo, boolean useKyros) {
     if (isRunning()) {
       log.info("Game is running, ignoring host request");
       notificationService.addImmediateWarnNotification("game.gameRunning");
@@ -283,7 +283,7 @@ public class GameService implements InitializingBean, DisposableBean {
 
     if (!preferencesService.isGamePathValid()) {
       CompletableFuture<Path> gameDirectoryFuture = postGameDirectoryChooseEvent();
-      return gameDirectoryFuture.thenCompose(path -> hostGame(newGameInfo));
+      return gameDirectoryFuture.thenCompose(path -> hostGame(newGameInfo, useKyros));
     }
 
     if (isInMatchmakerQueue()) {
@@ -291,7 +291,7 @@ public class GameService implements InitializingBean, DisposableBean {
       return completedFuture(null);
     }
 
-    return updateGameIfNecessary(newGameInfo.getFeaturedMod(), newGameInfo.getSimMods())
+    return updateGameIfNecessary(newGameInfo.getFeaturedMod(), newGameInfo.getSimMods(), useKyros)
         .thenCompose(aVoid -> downloadMapIfNecessary(newGameInfo.getMap()))
         .thenCompose(aVoid -> fafServerAccessor.requestHostGame(newGameInfo))
         .thenCompose(gameLaunchResponse -> startGame(gameMapper.map(gameLaunchResponse)));
@@ -322,7 +322,7 @@ public class GameService implements InitializingBean, DisposableBean {
 
     Set<String> simModUIds = game.getSimMods().keySet();
     return modService.getFeaturedMod(game.getFeaturedMod())
-        .thenCompose(featuredModBean -> updateGameIfNecessary(featuredModBean, simModUIds))
+        .thenCompose(featuredModBean -> updateGameIfNecessary(featuredModBean, simModUIds, false))
         .thenRun(() -> {
           try {
             modService.enableSimMods(simModUIds);
@@ -375,7 +375,7 @@ public class GameService implements InitializingBean, DisposableBean {
     }
 
     return modService.getFeaturedMod(featuredMod)
-        .thenCompose(featuredModBean -> updateGameIfNecessary(featuredModBean, simMods, featuredModFileVersions, baseFafVersion))
+        .thenCompose(featuredModBean -> updateGameIfNecessary(featuredModBean, simMods, featuredModFileVersions, baseFafVersion, false))
         .thenCompose(aVoid -> downloadMapIfNecessary(mapFolderName)
             .handleAsync((ignoredResult, throwable) -> {
               try {
@@ -472,7 +472,7 @@ public class GameService implements InitializingBean, DisposableBean {
     Set<String> simModUids = game.getSimMods().keySet();
 
     return modService.getFeaturedMod(gameType)
-        .thenCompose(featuredModBean -> updateGameIfNecessary(featuredModBean, simModUids))
+        .thenCompose(featuredModBean -> updateGameIfNecessary(featuredModBean, simModUids, false))
         .thenCompose(aVoid -> downloadMapIfNecessary(mapName))
         .thenRun(() -> {
               Process processCreated;
@@ -527,7 +527,7 @@ public class GameService implements InitializingBean, DisposableBean {
     log.info("Matchmaking search has been started");
 
     matchmakerFuture = modService.getFeaturedMod(FAF.getTechnicalName())
-        .thenAccept(featuredModBean -> updateGameIfNecessary(featuredModBean, Set.of()))
+        .thenAccept(featuredModBean -> updateGameIfNecessary(featuredModBean, Set.of(), false))
         .thenCompose(aVoid -> fafServerAccessor.startSearchMatchmaker())
         .thenCompose(gameLaunchResponse -> downloadMapIfNecessary(gameLaunchResponse.getMapName())
             .thenCompose(aVoid -> leaderboardService.getActiveLeagueEntryForPlayer(playerService.getCurrentPlayer(),gameLaunchResponse.getLeaderboard()))
@@ -574,12 +574,12 @@ public class GameService implements InitializingBean, DisposableBean {
     return process != null && process.isAlive();
   }
 
-  public CompletableFuture<Void> updateGameIfNecessary(FeaturedModBean featuredModBean, Set<String> simModUids) {
-    return updateGameIfNecessary(featuredModBean, simModUids, null, null);
+  public CompletableFuture<Void> updateGameIfNecessary(FeaturedModBean featuredModBean, Set<String> simModUids, boolean useKyros) {
+    return updateGameIfNecessary(featuredModBean, simModUids, null, null, useKyros);
   }
 
-  private CompletableFuture<Void> updateGameIfNecessary(FeaturedModBean featuredModBean, Set<String> simModUids, @Nullable Map<String, Integer> featuredModFileVersions, @Nullable Integer version) {
-    return gameUpdater.update(featuredModBean, simModUids, featuredModFileVersions, version);
+  private CompletableFuture<Void> updateGameIfNecessary(FeaturedModBean featuredModBean, Set<String> simModUids, @Nullable Map<String, Integer> featuredModFileVersions, @Nullable Integer version, boolean useKyros) {
+    return gameUpdater.update(featuredModBean, simModUids, featuredModFileVersions, version, useKyros);
   }
 
   public boolean isGameRunning() {
@@ -723,7 +723,7 @@ public class GameService implements InitializingBean, DisposableBean {
               game.getMapFolderName(),
               new HashSet<>(game.getSimMods().values()),
               GameVisibility.PUBLIC,
-              game.getRatingMin(), game.getRatingMax(), game.getEnforceRating())));
+              game.getRatingMin(), game.getRatingMax(), game.getEnforceRating()), false));
     }
   }
 
@@ -829,7 +829,7 @@ public class GameService implements InitializingBean, DisposableBean {
     }
 
     modService.getFeaturedMod(TUTORIALS.getTechnicalName())
-        .thenCompose(featuredModBean -> updateGameIfNecessary(featuredModBean, emptySet()))
+        .thenCompose(featuredModBean -> updateGameIfNecessary(featuredModBean, emptySet(), false))
         .thenCompose(aVoid -> downloadMapIfNecessary(mapVersion.getFolderName()))
         .thenCompose(aVoid -> {
           try {

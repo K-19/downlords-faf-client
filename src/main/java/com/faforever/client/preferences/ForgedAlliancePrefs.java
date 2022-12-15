@@ -27,21 +27,20 @@ public class ForgedAlliancePrefs {
 
   static {
     if (org.bridj.Platform.isWindows()) {
-//      DEFAULT_VAULT_DIRECTORY = Path.of(Shell32Util.getFolderPath(ShlObj.CSIDL_PERSONAL), "My Games", "Gas Powered Games", "Supreme Commander Forged Alliance");
-      DEFAULT_VAULT_DIRECTORY = Path.of(Shell32Util.getFolderPath(ShlObj.CSIDL_LOCAL_APPDATA), "Gas Powered Games", "Supreme Commander Forged Alliance");
+      DEFAULT_VAULT_DIRECTORY = Path.of(Shell32Util.getFolderPath(ShlObj.CSIDL_PERSONAL), "My Games", "RU FAF", "Supreme Commander Forged Alliance");
       //If steam is every swapped to a 64x client, needs to be updated to proper directory or handling must be put in place.
-      STEAM_FA_PATH = Path.of(Shell32Util.getFolderPath(ShlObj.CSIDL_PROGRAM_FILESX86), "Steam", "steamapps", "common", "Supreme Commander Forged Alliance");
-      LOCAL_FA_DATA_PATH = Path.of(Shell32Util.getFolderPath(ShlObj.CSIDL_LOCAL_APPDATA), "Gas Powered Games", "Supreme Commander Forged Alliance");
+      STEAM_FA_PATH = Path.of("C:", "Steam", "steamapps", "common", "Supreme Commander Forged Alliance");
+      LOCAL_FA_DATA_PATH = STEAM_FA_PATH;
     } else {
       String userHome = System.getProperty("user.home");
-      DEFAULT_VAULT_DIRECTORY = Path.of(userHome, "My Games", "Gas Powered Games", "Supreme Commander Forged Alliance");
+      DEFAULT_VAULT_DIRECTORY = Path.of(userHome, "My Games", "Gas Powered Games", "Supreme Commander RU Forged Alliance");
       STEAM_FA_PATH = Path.of(".");
-      LOCAL_FA_DATA_PATH = Path.of(userHome, ".wine", "drive_c", "users", System.getProperty("user.name"), "Application Data", "Gas Powered Games", "Supreme Commander Forged Alliance");
+      LOCAL_FA_DATA_PATH = Path.of(userHome, ".wine", "drive_c", "users", System.getProperty("user.name"), "Application Data", "Gas Powered Games", "Supreme Commander RU Forged Alliance");
     }
   }
 
   ObjectProperty<Path> installationPath = new SimpleObjectProperty<>(STEAM_FA_PATH);
-  ObjectProperty<Path> preferencesFile = new SimpleObjectProperty<>(LOCAL_FA_DATA_PATH.resolve("Game.prefs"));
+  ObjectProperty<Path> preferencesFile = new SimpleObjectProperty<>(LOCAL_FA_DATA_PATH.resolve("RuGame.prefs"));
   ObjectProperty<Path> vaultBaseDirectory = new SimpleObjectProperty<>(DEFAULT_VAULT_DIRECTORY);
   BooleanProperty warnNonAsciiVaultPath = new SimpleBooleanProperty(true);
   BooleanProperty forceRelay = new SimpleBooleanProperty(false);

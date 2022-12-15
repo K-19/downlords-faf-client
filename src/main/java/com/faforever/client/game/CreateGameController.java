@@ -56,6 +56,7 @@ import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
 import javafx.stage.Popup;
 import javafx.stage.PopupWindow.AnchorLocation;
 import lombok.RequiredArgsConstructor;
@@ -118,6 +119,7 @@ public class CreateGameController implements Controller<Pane> {
   public Pane mapPreviewPane;
   public Label versionLabel;
   public CheckBox onlyForFriendsCheckBox;
+  public CheckBox useKyrosModCheckBox;
   public Button generateMapButton;
   public ToggleButton mapFilterButton;
   public Popup mapFilterPopup;
@@ -194,6 +196,8 @@ public class CreateGameController implements Controller<Pane> {
     JavaFxUtil.addListener(passwordTextField.textProperty(), new WeakInvalidationListener(createButtonStateListener));
     JavaFxUtil.addListener(featuredModListView.getSelectionModel()
         .selectedItemProperty(), new WeakInvalidationListener(createButtonStateListener));
+    useKyrosModCheckBox.setTextFill(Color.AQUA);
+    useKyrosModCheckBox.setSelected(true);
   }
 
   public void onCloseButtonClicked() {
@@ -487,7 +491,7 @@ public class CreateGameController implements Controller<Pane> {
         maxRating,
         enforceRating);
 
-    gameService.hostGame(newGameInfo).exceptionally(throwable -> {
+    gameService.hostGame(newGameInfo, useKyrosModCheckBox.isSelected()).exceptionally(throwable -> {
       throwable  = ConcurrentUtil.unwrapIfCompletionException(throwable);
       log.error("Game could not be hosted", throwable);
       if (throwable instanceof NotifiableException) {

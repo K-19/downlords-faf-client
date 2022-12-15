@@ -91,7 +91,7 @@ public class CoopControllerTest extends UITest {
     instance.onPlayButtonClicked();
 
     ArgumentCaptor<NewGameInfo> captor = ArgumentCaptor.forClass(NewGameInfo.class);
-    verify(gameService).hostGame(captor.capture());
+    verify(gameService).hostGame(captor.capture(), false);
 
     NewGameInfo newGameInfo = captor.getValue();
     assertEquals("coop", newGameInfo.getFeaturedMod().getTechnicalName());

@@ -1,4 +1,4 @@
-package com.faforever.client.tutorial;
+package com.faforever.client.topMonth;
 
 import com.faforever.client.config.ClientProperties;
 import com.faforever.client.config.ClientProperties.Website;
@@ -22,16 +22,16 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @Component
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
-public class TutorialController extends AbstractViewController<Node> {
+public class TopMonthController extends AbstractViewController<Node> {
   private final EventBus eventBus;
   private final WebViewConfigurer webViewConfigurer;
   private final ClientProperties clientProperties;
-  public Pane tutorialsRoot;
-  public WebView tutorialsWebView;
+  public Pane topMonthRoot;
+  public WebView topMonthWebView;
   public Control loadingIndicator;
   private final ChangeListener<Boolean> loadingIndicatorListener;
 
-  public TutorialController(EventBus eventBus, WebViewConfigurer webViewConfigurer, ClientProperties clientProperties) {
+  public TopMonthController(EventBus eventBus, WebViewConfigurer webViewConfigurer, ClientProperties clientProperties) {
     this.eventBus = eventBus;
     this.webViewConfigurer = webViewConfigurer;
     this.clientProperties = clientProperties;
@@ -45,8 +45,8 @@ public class TutorialController extends AbstractViewController<Node> {
 
   @Override
   public void initialize() {
-    tutorialsWebView.setContextMenuEnabled(false);
-    webViewConfigurer.configureWebView(tutorialsWebView);
+    topMonthWebView.setContextMenuEnabled(false);
+    webViewConfigurer.configureWebView(topMonthWebView);
 
     loadingIndicator.managedProperty().bind(loadingIndicator.visibleProperty());
     loadingIndicator.visibleProperty().addListener(loadingIndicatorListener);
@@ -54,7 +54,7 @@ public class TutorialController extends AbstractViewController<Node> {
 
     loadingIndicator.getParent().getChildrenUnmodifiable()
         .forEach(node -> node.managedProperty().bind(node.visibleProperty()));
-    tutorialsWebView.getEngine().getLoadWorker().stateProperty().addListener((obs, oldState, newState) -> {
+    topMonthWebView.getEngine().getLoadWorker().stateProperty().addListener((obs, oldState, newState) -> {
       if (newState == Worker.State.SUCCEEDED) {
         onLoadingStop();
       }
@@ -71,14 +71,14 @@ public class TutorialController extends AbstractViewController<Node> {
 
   @Override
   protected void onDisplay(NavigateEvent navigateEvent) {
-    eventBus.post(new UnreadTutorialEvent(false));
+    eventBus.post(new UnreadTopMonthEvent(false));
     onLoadingStart();
     loadNews();
   }
 
   @Subscribe
-  public void onUnreadTutorialEvent(UnreadTutorialEvent unreadTutorialEvent) {
-    if (unreadTutorialEvent.hasUnreadTutorial()) {
+  public void onUnreadTutorialEvent(UnreadTopMonthEvent unreadTopMonthEvent) {
+    if (unreadTopMonthEvent.hasUnreadTopMonth()) {
       onLoadingStart();
       loadNews();
     }
@@ -88,12 +88,11 @@ public class TutorialController extends AbstractViewController<Node> {
   private void loadNews() {
     JavaFxUtil.runLater(() -> {
       Website website = clientProperties.getWebsite();
-      tutorialsWebView.getEngine().load(website.getTopHubUrl());
+      topMonthWebView.getEngine().load(website.getTopMonthHubUrl());
     });
   }
 
   public Node getRoot() {
-    return tutorialsRoot;
+    return topMonthRoot;
   }
-
 }

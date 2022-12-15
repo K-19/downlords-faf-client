@@ -1,6 +1,7 @@
 package com.faforever.client.patch;
 
 import com.faforever.client.domain.FeaturedModBean;
+import com.faforever.client.game.CreateGameController;
 import com.faforever.client.i18n.I18n;
 import com.faforever.client.io.ChecksumMismatchException;
 import com.faforever.client.io.DownloadService;
@@ -38,6 +39,7 @@ public class SimpleHttpFeaturedModUpdaterTask extends CompletableTask<PatchResul
 
   private FeaturedModBean featuredMod;
   private Integer version;
+  private boolean useKyros;
 
   public SimpleHttpFeaturedModUpdaterTask(
       ModService modService,
@@ -134,10 +136,12 @@ public class SimpleHttpFeaturedModUpdaterTask extends CompletableTask<PatchResul
   }
 
   private boolean fileAlreadyLoaded(FeaturedModFile featuredModFile, Path targetPath) throws IOException {
-//    return Files.exists(targetPath)
-//        && Objects.equals(featuredModFile.getMd5(), featuredModFileCacheService.readHashFromFile(targetPath));
-
-    return Files.exists(targetPath);
+    if(!useKyros && featuredModFile.getName().equals("kyros.nxt")) {
+      Files.deleteIfExists(targetPath);
+      return true;
+    }
+    return Files.exists(targetPath)
+        && Objects.equals(featuredModFile.getMd5(), featuredModFileCacheService.readHashFromFile(targetPath));
   }
 
   private void downloadFeaturedModFile(FeaturedModFile featuredModFile, Path targetPath) throws IOException, NoSuchAlgorithmException, ChecksumMismatchException {
@@ -160,5 +164,9 @@ public class SimpleHttpFeaturedModUpdaterTask extends CompletableTask<PatchResul
 
   public void setVersion(Integer version) {
     this.version = version;
+  }
+
+  public void setUseKyros(boolean useKyros) {
+    this.useKyros = useKyros;
   }
 }
