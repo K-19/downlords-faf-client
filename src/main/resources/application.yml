@@ -7,7 +7,7 @@ faf-client:
     draw-probability: 0.1
 
   links:
-    linksTecHelpForum: https://forum.faforever.ru/category/4/i-need-help
+    linksTecHelpForum: https://discord.gg/rDhgNbUPqf
     linksRules: ${faf-client.website.base-url}/rules
     linksModerationReport: ${faf-client.website.base-url}/account/report
     linksFacebook: https://www.facebook.com/ForgedAllianceForever/
@@ -28,8 +28,13 @@ faf-client:
     report-url: ${faf-client.website.base-url}/account/report
     news-hub-url: https://faforever-info.ru/novosti-tehnicheskaja-stranica/
     tournaments-hub-url: http://faforever-info.ru/turniry-tehnicheskaja/
+    project-help-hub-url: https://faforever-info.ru/pomoshh-tehnicheskaja/
     top-hub-url: http://faforever-info.ru/top-igroki-tehnicheskaja/
     top-month-hub-url: https://faforever-info.ru/top-igroki-mesjaca-tehnicheskaja/
+    lagers-hub-url: https://faforever-info.ru/lagery-tehnicheskaja/
+    last-version-url: ${LAST_VERSION_URL:https://content.faforever.ru/client/launcher.zip}
+    check-last-version-url: ${CHECK_LAST_VERSION_URL:https://faforever-info.ru/version.html}
+    discord-url: ${DISCORD_URL:https://discord.gg/rDhgNbUPqf}
 
   imgur:
     upload:
@@ -111,3 +116,4 @@ logging:
     com.faforever.client.fa.relay.ice: info
     com.faforever.client.fx: info
   config: classpath:logback-spring.xml
+version: 1.0.17

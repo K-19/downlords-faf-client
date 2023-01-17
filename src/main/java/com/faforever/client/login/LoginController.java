@@ -27,23 +27,34 @@ import com.faforever.client.util.ConcurrentUtil;
 import com.google.common.annotations.VisibleForTesting;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.ReadOnlyObjectProperty;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextFlow;
 import javafx.util.StringConverter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 
 import java.io.IOException;
@@ -76,6 +87,11 @@ public class LoginController implements Controller<Pane> {
   public Pane errorPane;
   public Pane loginFormPane;
   public Button loginButton;
+  public Text clientVersionMessage;
+  public Hyperlink linkNewVersionClient;
+  public Text discordMessage;
+  public Hyperlink linkDiscordClient;
+  public TextFlow testFlow;
   public Pane loginProgressPane;
   public ComboBox<ServerEndpoints> environmentComboBox;
   public Button downloadUpdateButton;
@@ -98,6 +114,9 @@ public class LoginController implements Controller<Pane> {
   private CompletableFuture<Void> initializeFuture;
   private String state;
   private String verifier;
+
+  @Value("${version}")
+  private String currentClientVersion;
 
   private static boolean shouldDisplayAnnouncement(Message message) {
     return message.getEndOn().isAfter(OffsetDateTime.now());
@@ -190,7 +209,50 @@ public class LoginController implements Controller<Pane> {
       initializeFuture = CompletableFuture.completedFuture(null);
     }
 
+    discordMessage.setFill(Color.WHITE);
+
+    RestTemplate restTemplate = new RestTemplate();
+    String version = null;
+    try {
+      version = restTemplate.getForObject(clientProperties.getWebsite().getCheckLastVersionUrl(), String.class);
+    } catch (RuntimeException e) {
+      clientVersionMessage.setText("При проверке актуальности клиента что-то пошло не так");
+      clientVersionMessage.setFill(Color.YELLOW);
+      linkNewVersionClient.setVisible(false);
+      linkNewVersionClient.setText("");
+    }
+    if (version == null) {
+      clientVersionMessage.setText("Не удалось получить актуальную версию клиента от сервера");
+      clientVersionMessage.setFill(Color.YELLOW);
+      linkNewVersionClient.setVisible(false);
+      linkNewVersionClient.setText("");
+    } else {
+      if (version.equals(currentClientVersion)) {
+        clientVersionMessage.setText("У Вас последняя версия клиента");
+        clientVersionMessage.setFill(Color.GREEN);
+        linkNewVersionClient.setVisible(false);
+        linkNewVersionClient.setText("");
+      } else {
+        clientVersionMessage.setText("У вас устаревшая версия клиента, скачать новую можно по ссылке:");
+        clientVersionMessage.setFill(Color.RED);
+        linkNewVersionClient.setVisible(true);
+        linkNewVersionClient.setText("Актуальная версия клиента");
+
+        linkNewVersionClient.setOnAction(new EventHandler<ActionEvent>() {
+          @Override
+          public void handle(ActionEvent e) {
+            platformService.showDocument(clientProperties.getWebsite().getLastVersionUrl());
+          }
+        });
+      }
+    }
+
     checkServiceStatus();
+  }
+
+
+  public void onActionDiscord() {
+    platformService.showDocument(clientProperties.getWebsite().getDiscordUrl());
   }
 
   private void checkServiceStatus() {

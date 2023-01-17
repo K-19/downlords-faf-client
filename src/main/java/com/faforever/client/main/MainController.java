@@ -134,6 +134,7 @@ public class MainController implements Controller<Node>, InitializingBean {
   public ToggleButton topMonthButton;
   public ToggleButton mapButton;
   public ToggleButton modButton;
+  public ToggleButton lagersButton;
   public ToggleButton leaderboardsButton;
   public ToggleButton tournamentsButton;
   public ToggleButton unitsButton;
@@ -183,6 +184,7 @@ public class MainController implements Controller<Node>, InitializingBean {
     playButton.setUserData(NavigationItem.PLAY);
     replayButton.setUserData(NavigationItem.REPLAY);
     mapButton.setUserData(NavigationItem.MAP);
+    lagersButton.setUserData(NavigationItem.LAGERS);
     modButton.setUserData(NavigationItem.MOD);
     leaderboardsButton.setUserData(NavigationItem.LEADERBOARD);
     tournamentsButton.setUserData(NavigationItem.TOURNAMENTS);

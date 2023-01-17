@@ -433,11 +433,6 @@
   -fx-border-radius: 0;
 }
 
-.main-navigation-top-button {
-  -fx-border-width: 0 4 4 4;
-  -fx-border-color: -fx-accent;
-}
-
 .main-navigation-button {
   -fx-border-width: 0 0 4 0;
   -fx-border-color: transparent;

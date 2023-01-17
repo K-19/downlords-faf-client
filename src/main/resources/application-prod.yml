@@ -1,13 +1,14 @@
 faf-client:
   server:
-    host: 31.135.14.173
+    host: host.faforever.ru
     port: 8001
 
   irc:
-    host: 31.135.14.173
+    host: host.faforever.ru
     port: 6697
 
   vault:
+    max-file-size-mb: ${MAX_FILE_SIZE_MB:50}
     base-url: https://content.faforever.ru
     replay-download-url-format: https://content.faforever.ru/replays/%s.fafreplay
     static-message-first: Моды создаются и добавляются простыми игроками, поэтому некоторые моды или их комбинации, могут приводить к крашу игры.
@@ -17,7 +18,7 @@ faf-client:
     feed-url: https://direct.faforever.ru/news/feed
 
   replay:
-    remote-host: 31.135.14.173
+    remote-host: host.faforever.ru
     remote-port: 15000
 
   website:

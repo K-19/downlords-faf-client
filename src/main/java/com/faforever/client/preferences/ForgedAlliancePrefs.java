@@ -27,7 +27,7 @@ public class ForgedAlliancePrefs {
 
   static {
     if (org.bridj.Platform.isWindows()) {
-      DEFAULT_VAULT_DIRECTORY = Path.of(Shell32Util.getFolderPath(ShlObj.CSIDL_PERSONAL), "My Games", "RU FAF", "Supreme Commander Forged Alliance");
+      DEFAULT_VAULT_DIRECTORY = Path.of("C:", "RuFAFdata");
       //If steam is every swapped to a 64x client, needs to be updated to proper directory or handling must be put in place.
       STEAM_FA_PATH = Path.of("C:", "Steam", "steamapps", "common", "Supreme Commander Forged Alliance");
       LOCAL_FA_DATA_PATH = STEAM_FA_PATH;

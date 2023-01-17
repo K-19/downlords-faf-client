@@ -18,6 +18,7 @@ public enum NavigationItem {
   UNITS("theme/units.fxml", "main.units"),
   TUTORIALS("theme/tutorial.fxml", "main.tutorials"),
   TOURNAMENTS("theme/tournaments/tournaments.fxml", "main.tournaments"),
+  LAGERS("theme/tournaments/lagers.fxml", "main.lagers"),
   TOP_MONTH("theme/topMonth.fxml", "main.topMonth");
 
   private final String fxmlFile;

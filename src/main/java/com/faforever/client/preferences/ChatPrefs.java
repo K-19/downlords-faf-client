@@ -61,8 +61,8 @@ public class ChatPrefs {
    * Time in minutes a player has to be inactive to be considered idle.
    */
   IntegerProperty idleThreshold = new SimpleIntegerProperty(10);
-  BooleanProperty showMapName = new SimpleBooleanProperty(false);
-  BooleanProperty showMapPreview = new SimpleBooleanProperty(false);
+  BooleanProperty showMapName = new SimpleBooleanProperty(true);
+  BooleanProperty showMapPreview = new SimpleBooleanProperty(true);
   MapProperty<String, ObservableList<ChatUserCategory>> channelNameToHiddenCategories = new SimpleMapProperty<>(FXCollections.observableHashMap());
 
   public ChatPrefs() {

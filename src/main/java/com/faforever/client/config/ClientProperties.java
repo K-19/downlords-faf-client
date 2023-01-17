@@ -89,6 +89,7 @@ public class ClientProperties {
   @Data
   public static class Vault {
     private String baseUrl;
+    private long maxFileSizeMb;
     private String mapRulesUrl;
     private String modRulesUrl;
     private String mapValidationUrl;
@@ -140,8 +141,13 @@ public class ClientProperties {
     private String reportUrl;
     private String newsHubUrl;
     private String tournamentsHubUrl;
+    private String projectHelpHubUrl;
     private String topHubUrl;
     private String topMonthHubUrl;
+    private String lagersHubUrl;
+    private String lastVersionUrl;
+    private String checkLastVersionUrl;
+    private String discordUrl;
   }
 
   @Data

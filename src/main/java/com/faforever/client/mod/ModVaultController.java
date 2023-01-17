@@ -9,7 +9,10 @@ import com.faforever.client.i18n.I18n;
 import com.faforever.client.main.event.NavigateEvent;
 import com.faforever.client.main.event.OpenModVaultEvent;
 import com.faforever.client.mod.event.ModUploadedEvent;
+import com.faforever.client.moderator.ModeratorService;
 import com.faforever.client.notification.NotificationService;
+import com.faforever.client.notification.PersistentNotification;
+import com.faforever.client.notification.Severity;
 import com.faforever.client.preferences.PreferencesService;
 import com.faforever.client.query.SearchablePropertyMappings;
 import com.faforever.client.reporting.ReportingService;
@@ -22,8 +25,8 @@ import com.google.common.eventbus.Subscribe;
 import javafx.scene.Node;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
-import javafx.scene.text.Text;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -37,6 +40,11 @@ import java.util.Random;
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 @Slf4j
 public class ModVaultController extends VaultEntityController<ModVersionBean> {
+
+  @Autowired
+  private ClientProperties properties;
+  @Autowired
+  private ModeratorService moderatorService;
 
   private final ModService modService;
   private final EventBus eventBus;
@@ -166,6 +174,13 @@ public class ModVaultController extends VaultEntityController<ModVersionBean> {
   }
 
   private void openUploadWindow(Path path) {
+
+    long sizeFile = getFolderSize(path.toFile());
+    if (sizeFile >= properties.getVault().getMaxFileSizeMb() * 1024 * 1024) {
+      notificationService.addNotification(new PersistentNotification("Невозможно загрузить файл размером более " + properties.getVault().getMaxFileSizeMb() + " Мб", Severity.INFO));
+      return;
+    }
+
     ModUploadController modUploadController = uiService.loadFxml("theme/vault/mod/mod_upload.fxml");
     modUploadController.setModPath(path);
 
@@ -177,5 +192,10 @@ public class ModVaultController extends VaultEntityController<ModVersionBean> {
   @Subscribe
   public void onModUploaded(ModUploadedEvent event) {
     onRefreshButtonClicked();
+  }
+
+  @Override
+  protected boolean isRenderedLoadingButton() {
+    return !moderatorService.getPermissions().contains("UPLOAD_MOD");
   }
 }

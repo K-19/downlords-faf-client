@@ -1,5 +1,6 @@
 package com.faforever.client.map;
 
+import com.faforever.client.config.ClientProperties;
 import com.faforever.client.domain.MapVersionBean;
 import com.faforever.client.domain.MatchmakerQueueBean;
 import com.faforever.client.fx.JavaFxUtil;
@@ -10,7 +11,10 @@ import com.faforever.client.main.event.OpenMapVaultEvent;
 import com.faforever.client.main.event.ShowMapPoolEvent;
 import com.faforever.client.map.event.MapUploadedEvent;
 import com.faforever.client.map.management.MapsManagementController;
+import com.faforever.client.moderator.ModeratorService;
 import com.faforever.client.notification.NotificationService;
+import com.faforever.client.notification.PersistentNotification;
+import com.faforever.client.notification.Severity;
 import com.faforever.client.preferences.PreferencesService;
 import com.faforever.client.query.SearchablePropertyMappings;
 import com.faforever.client.reporting.ReportingService;
@@ -22,6 +26,7 @@ import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
 import javafx.scene.Node;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -39,6 +44,12 @@ import java.util.Random;
 // this is currently not viable since Elide can't yet sort by relationship attributes. Once it supports that
 // (see https://github.com/yahoo/elide/issues/353), this can be refactored.
 public class MapVaultController extends VaultEntityController<MapVersionBean> {
+
+  @Autowired
+  private ClientProperties properties;
+
+  @Autowired
+  private ModeratorService moderatorService;
 
   private final MapService mapService;
   private final PlatformService platformService;
@@ -173,6 +184,12 @@ public class MapVaultController extends VaultEntityController<MapVersionBean> {
   }
 
   private void openUploadWindow(Path path) {
+
+    long sizeFile = getFolderSize(path.toFile());
+    if (sizeFile >= properties.getVault().getMaxFileSizeMb() * 1024 * 1024) {
+      notificationService.addNotification(new PersistentNotification("Невозможно загрузить файл размером более " + properties.getVault().getMaxFileSizeMb() + " Мб", Severity.INFO));
+      return;
+    }
     MapUploadController mapUploadController = uiService.loadFxml("theme/vault/map/map_upload.fxml");
     mapUploadController.setMapPath(path);
 
@@ -180,10 +197,16 @@ public class MapVaultController extends VaultEntityController<MapVersionBean> {
     Dialog dialog = uiService.showInDialog(vaultRoot, root, i18n.get("mapVault.upload.title"));
     uiService.makeScrollableDialog(dialog);
     mapUploadController.setOnCancelButtonClickedListener(dialog::close);
+
   }
 
   @Subscribe
   public void onMapUploaded(MapUploadedEvent event) {
     onRefreshButtonClicked();
+  }
+
+  @Override
+  protected boolean isRenderedLoadingButton() {
+    return !moderatorService.getPermissions().contains("UPLOAD_MAP");
   }
 }

@@ -202,4 +202,9 @@ public class OnlineReplayVaultController extends VaultEntityController<ReplayBea
     playerId = event.getPlayerId();
     displayFromSupplier(() -> replayService.getReplaysForPlayerWithPageCount(playerId, pageSize, 1), true);
   }
+
+  @Override
+  protected boolean isRenderedLoadingButton() {
+    return false;
+  }
 }

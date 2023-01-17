@@ -134,4 +134,9 @@ public class LocalReplayVaultController extends VaultEntityController<ReplayBean
   protected void handleSpecialNavigateEvent(NavigateEvent navigateEvent) {
     log.warn("No such NavigateEvent for this Controller: {}", navigateEvent.getClass());
   }
+
+  @Override
+  protected boolean isRenderedLoadingButton() {
+    return false;
+  }
 }

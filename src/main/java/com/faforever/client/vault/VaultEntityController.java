@@ -23,7 +23,6 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Pagination;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Separator;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -38,6 +37,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import reactor.util.function.Tuple2;
 
+import java.io.File;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.atomic.AtomicReference;
@@ -48,7 +48,6 @@ import java.util.stream.Collectors;
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 @Slf4j
 public abstract class VaultEntityController<T> extends AbstractViewController<Node> {
-
   public static final int TOP_ELEMENT_COUNT = 7;
   protected final UiService uiService;
   protected final NotificationService notificationService;
@@ -101,6 +100,8 @@ public abstract class VaultEntityController<T> extends AbstractViewController<No
 
   protected abstract void onUploadButtonClicked();
 
+  protected abstract boolean isRenderedLoadingButton();
+
   protected abstract void onManageVaultButtonClicked();
 
   protected abstract Node getDetailView();
@@ -125,6 +126,9 @@ public abstract class VaultEntityController<T> extends AbstractViewController<No
     backButton.setOnAction(event -> onBackButtonClicked());
     refreshButton.setOnAction(event -> onRefreshButtonClicked());
     uploadButton.setOnAction(event -> onUploadButtonClicked());
+    uploadButton.setDisable(isRenderedLoadingButton());
+    if (uploadButton.isDisable())
+      uploadButton.setText("Загрузка... (У вас недостаточно прав для загрузки)");
     manageVaultButton.setOnAction(event -> onManageVaultButtonClicked());
 
     searchController.setSearchListener(this::onSearch);
@@ -351,5 +355,22 @@ public abstract class VaultEntityController<T> extends AbstractViewController<No
     Supplier<CompletableFuture<Tuple2<List<T>, Integer>>> entitySupplier;
     SearchType searchType;
     String i18nKey;
+  }
+
+  public long getFolderSize(File folder) {
+    long length = 0;
+    File[] files = folder.listFiles();
+
+    int count = files.length;
+
+    for (int i = 0; i < count; i++) {
+      if (files[i].isFile()) {
+        length += files[i].length();
+      }
+      else {
+        length += getFolderSize(files[i]);
+      }
+    }
+    return length;
   }
 }
